@@ -13,6 +13,8 @@ Build using CMake
 ```bash
 index_root <root_index> <number1> <number2> ...
 
+```
 
 ```powershell
 .\index_root.exe <root_index> <number1> <number2> ...
+```
