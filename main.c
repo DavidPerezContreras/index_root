@@ -1,55 +1,49 @@
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
+#include <limits.h>
 #include <float.h>
-int main(int argcount, char **args)
-{
-    bool arguments_are_valid = true;
 
-    if (argcount < 3)
-    {
-        arguments_are_valid = false;
-        printf("Not enough arguments");
-        exit(-1);
+int main(int argc, char **argv)
+{
+    if (argc < 3) {
+        printf("Not enough arguments.\nUsage: %s <root_index> <number1> [number2 ...]\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    // Validate and parse root index
+    char *endptr;
+    long root_index = strtol(argv[1], &endptr, 10);
+
+    if (argv[1] == endptr || root_index <= 0 || root_index > INT_MAX) {
+        printf("Error: The first argument must be a positive integer.\n");
+        return EXIT_FAILURE;
     }
 
     // Validate radicands
-    for (int i = 2; i < argcount; i++)
-    {
-        char *endptr;
-        double radicand = strtod(args[i], &endptr);
-
-        if (args[i] == endptr)
-        {
-            arguments_are_valid = false;
+    for (int i = 2; i < argc; i++) {
+        char *rad_endptr;
+        strtod(argv[i], &rad_endptr);
+        if (argv[i] == rad_endptr) {
+            printf("Error: Argument %d ('%s') is not a valid double.\n", i, argv[i]);
+            return EXIT_FAILURE;
         }
     }
 
-    // Validate root index
-    char *str = args[1];
-    char *endptr;
-    long value = strtol(str, &endptr, 10);
+    // Compute and print roots
+    for (int i = 2; i < argc; i++) {
+        double radicand = strtod(argv[i], NULL);
 
-    if (str == endptr)
-    {
-        arguments_are_valid = false;
+        // Handle domain error for even roots of negative numbers
+        if (radicand < 0 && root_index % 2 == 0) {
+            printf("Cannot compute even root of negative number: %g\n", radicand);
+            continue;
+        }
+
+        double result = pow(radicand, 1.0 / root_index);
+        printf("The %ld-th root of %g is %g\n", root_index, radicand, result);
     }
 
-    // Exit program if arguments are invalid
-    if (!arguments_are_valid)
-    {
-        printf("Error parsing arguments. The first argument needs to be an integer. \nThe subsequent arguments should be doubles.");
-        exit(-1);
-    }
-
-    // The first argument is the index of the root
-    int root_index = strtol(args[1], NULL, 10);
-    for (int i = 2; i < argcount; i++)
-    {
-        double radicand = strtod(args[i], NULL);
-        printf("The %d-th root of %lf is %lf \n", root_index, radicand, pow(radicand, 1.0 / root_index));
-    }
-
-    return 0;
+    return EXIT_SUCCESS;
 }
