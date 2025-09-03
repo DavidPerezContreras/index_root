@@ -26,11 +26,7 @@ int main(int argcount, char **args)
         }
     }
 
-    if (!arguments_are_valid)
-    {
-        printf("Error parsing arguments. The first argument needs to be an integer. \nThe subsequent arguments should be doubles.");
-        exit(-1);
-    }
+
 
     // Validate root index
     char *str = args[1];
@@ -39,11 +35,14 @@ int main(int argcount, char **args)
 
     if (str == endptr)
     {
-        printf("Conversion failed: no digits found\n");
+        arguments_are_valid=false;
     }
-    else
+
+    //Exit program if arguments are invalid
+    if (!arguments_are_valid)
     {
-        printf("Converted value: %ld\n", value);
+        printf("Error parsing arguments. The first argument needs to be an integer. \nThe subsequent arguments should be doubles.");
+        exit(-1);
     }
 
     // The first argument is the index of the root
