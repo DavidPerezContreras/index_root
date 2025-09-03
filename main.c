@@ -54,8 +54,5 @@ int main(int argcount, char **args)
         printf("The %d-th root of %lf is %lf \n", root_index, radicand, pow(radicand, 1.0 / root_index));
     }
 
-
-    printf("The largest radicand value you can enter is: %lf",DBL_MAX);
-
     return 0;
 }
