@@ -26,8 +26,6 @@ int main(int argcount, char **args)
         }
     }
 
-
-
     // Validate root index
     char *str = args[1];
     char *endptr;
@@ -35,10 +33,10 @@ int main(int argcount, char **args)
 
     if (str == endptr)
     {
-        arguments_are_valid=false;
+        arguments_are_valid = false;
     }
 
-    //Exit program if arguments are invalid
+    // Exit program if arguments are invalid
     if (!arguments_are_valid)
     {
         printf("Error parsing arguments. The first argument needs to be an integer. \nThe subsequent arguments should be doubles.");
@@ -46,7 +44,7 @@ int main(int argcount, char **args)
     }
 
     // The first argument is the index of the root
-    int root_index = value;
+    int root_index = strtol(args[1], NULL, 10);
     for (int i = 2; i < argcount; i++)
     {
         double radicand = strtod(args[i], NULL);
