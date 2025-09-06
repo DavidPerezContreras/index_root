@@ -1,4 +1,4 @@
-# 📐 index_root
+# 📐 C Find n-th root of x
 
 A simple command-line utility written in C that calculates the **n-th root** of a series of numbers.
 
